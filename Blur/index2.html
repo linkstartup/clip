@@ -55,6 +55,7 @@ $('#submitFormBtn').click(function(){
       console.log(imgName)
 
       var img = new Image();
+      img.crossOrigin = "anonymous";  
 
 			img.onload = function () {
         StackBlur.image('source', 'canvas', '90',false);
