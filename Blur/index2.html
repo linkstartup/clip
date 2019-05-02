@@ -3,24 +3,30 @@
     <head>
         <meta charset="utf-8" />
         <title>StackBlur Demo</title>
-        <link rel="shortcut icon" href="data:image/x-icon;," type="image/x-icon" />
+        <style>
+          #uploadForm{
+            width:100%;
+            height:50px;
+          }
+          #submitFormBtn{
+            width:100%;
+            height:50px;
+            margin-top:20px;
+          }
+        </style>
     </head>
     <body>
         <h1>StackBlur Demo</h1>
-        <img src="sex.jpg" alt="" id='source'>
-        <!-- <img src="https://pbs.twimg.com/media/DdAVyyqUwAAGI1U?format=jpg&name=4096x4096" alt="" id='source'> -->
+
+        <form id='uploadForm'>
+            <input type="file" name="sampleFile" />
+        </form>
+        <div id='submitFormBtn'>Upload</div> 
+
+        <div id="imgContainer"></div>
         <canvas id="canvas"  width="1" height="1"></canvas>
-        <img src="" alt="" id='theimage'>
 
 
-    <form ref='uploadForm' 
-      id='uploadForm' 
-      action='/upload' 
-      method='post' 
-      encType="multipart/form-data">
-        <input type="file" name="sampleFile" />
-        <input type='submit' value='Upload!' />
-    </form>
 
 
 <script src="stackblur.min.js"></script>
@@ -31,18 +37,60 @@
 
 (function() {
 
-StackBlur.image('source', 'canvas', '90',false);
+var imgName='';
+$('#submitFormBtn').click(function(){
 
-document.getElementById("theimage").src = document.getElementById('canvas').toDataURL();
+  $.ajax({
+      url: '/upload',
+      type: 'POST',
+      cache: false,
+      data: new FormData($('#uploadForm')[0]),
+      processData: false,
+      contentType: false
+  }).done(function(res) {
+      
+    
+      imgName=res.imgName;
 
 
-uploadBase64(document.getElementById("theimage").src)
-  function uploadBase64(base64) {
+
+      var img = new Image();
+
+			img.onload = function () {
+        StackBlur.image('source', 'canvas', '90',false);
+
+        var base64 = document.getElementById('canvas').toDataURL();
+
+
+        uploadBase64(base64)
+
+      };
+      img.src = res.imageUrl;
+      img.id='source';
+      $('#imgContainer').empty();
+      $('#imgContainer').append(img);
+
+
+
+  }).fail(function(res) {});
+
+})
+
+
+
+
+
+
+  
+
+  
+function uploadBase64(base64) {
     $.ajax({
       type: "POST",
       url: "/base64",
       data: JSON.stringify({
-        base64: base64
+        imgName:imgName,
+        base64: base64,
       }),
       contentType: "application/json; charset=utf-8",
       crossDomain: true,
@@ -51,7 +99,7 @@ uploadBase64(document.getElementById("theimage").src)
         console.log(data)
       }
     });
-  }
+}
 
 
 

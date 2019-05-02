@@ -52,7 +52,7 @@
 
 <script charset="utf-8">
 $(document).ready(function(){
-
+	var imgName='屏幕快照2019-04-12下午6.41.23.png';
 
 
 	var leftRatio;
@@ -68,7 +68,6 @@ $(document).ready(function(){
 
 	canvas.width = canvasBox.clientWidth;
 	canvas.height = canvasBox.clientHeight;
-
 
 	$.ajax({
       type: "POST",
@@ -86,15 +85,14 @@ $(document).ready(function(){
 			a=data.a;
 
 			var img = new Image();
-			img.src = "out.png";
+			img.src = "./first/"+imgName;
 
-			//https://scontent-icn1-1.xx.fbcdn.net/v/t1.0-9/58729820_1116344518568091_7651946629708120064_o.jpg?_nc_cat=102&_nc_ht=scontent-icn1-1.xx&oh=08cf8eb29a30428dda9c42d7ccd9eb8a&oe=5D685426
 
 			img.onload = function () {
 				var w = canvas.height*img.width/img.height;
 				ctx.drawImage(img, (canvas.width-w)/2, 0, w, canvas.height);
 				tapClip()
-				canvasBox.style.backgroundImage = "url('http://10.80.155.133:8080/Blur/sex.jpg')"
+				canvasBox.style.backgroundImage = "url("+imgName+")"
 			};
 		}else{//未登录
 			window.location.href='http://10.80.155.133:8080/Blur/login.html'
@@ -172,14 +170,14 @@ $(document).ready(function(){
 						}
 					}
 					if (dd / (imgData.width * imgData.height / (distance * distance)) < leftRatio) {
-						canvas.className = "noOp";
+						// canvas.className = "noOp";
 			            jumptozoom();
 					}
 				}, totimes)
 			});
 
 			function jumptozoom(){
-				window.location.href='http://10.80.155.133:8080/Blur/sex.html'
+				window.location.href='http://10.80.155.133:8080/Blur/sex.html?imgName='+imgName;
 
 
 			}
