@@ -1,0 +1,114 @@
+<html>
+    <header>
+            <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    </header>
+    <body>
+                <div id='clipLogin'>
+                    <input type="email" id="logemail" placeholder="E-mail" required="">
+                    <input type="password" id="logpassword" placeholder="Password" required="">
+                    <div class="tp">
+                        <div id="login">LOGIN NOW</div>
+                    </div>
+                </div>
+
+
+                <div id='logout'>
+                    LOGOUT
+                </div>                
+
+                
+
+                <div id='clipRegster'>
+                    <input type="email" id="email" placeholder="E-mail" required="">
+                    <input type="tel" name="phone" pattern="[0-9]{11}" id="username" placeholder="Phone" required="">
+                    <input type="password" id="password" placeholder="Password" id="password" required="" >
+                    <input type="password" id="passwordConf" placeholder="Confirm Password" id="password_conf" required="">
+					<div class="tp">
+                        <div id="register">Register NOW</div>
+                    </div>
+                </div>
+
+
+
+                <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+                <script charset="utf-8">
+                $(document).ready(function(){
+                
+                    $('#login').click(function(){
+          
+                
+                        $.ajax({
+                            type: "POST",
+                            url: "/",
+                            data: JSON.stringify({
+                                logemail:$('#logemail').val(),
+                                logpassword:$('#logpassword').val()
+                
+                            }),
+                            contentType: "application/json; charset=utf-8",
+                            crossDomain: true,
+                            dataType: "json",
+                            success: function success(data, status, jqXHR) {
+                                if(data.userId){
+                                    window.location.href='http://10.80.155.133:8080/Blur/index.html'
+
+                                }                                
+                            }
+                        });
+                    })
+                
+                
+                    $('#logout').click(function(){
+                
+                
+                        $.ajax({
+                            type: "POST",
+                            url: "/logout",
+                            data: JSON.stringify({
+                                
+                
+                            }),
+                            contentType: "application/json; charset=utf-8",
+                            crossDomain: true,
+                            dataType: "json",
+                            success: function success(data, status, jqXHR) {
+                                console.log(data)
+                            }
+                        });
+                    })                
+                
+                    
+                    $('#register').click(function(){
+                        var email=$('#email');
+                        var username=$('#username');
+                        var password=$('#password');
+                        var passwordConf=$('#passwordConf');
+
+                        if(password.val() != passwordConf.val()){ 
+                            alert("Passwords do not match. Please try again.");
+                        }                       
+                        $.ajax({
+                            type: "POST",
+                            url: "/",
+                            data: JSON.stringify({
+                                email:email.val(),
+                                username:username.val(),
+                                password:password.val(),
+                                passwordConf:passwordConf.val()
+                            }),
+                            contentType: "application/json; charset=utf-8",
+                            crossDomain: true,
+                            dataType: "json",
+                            success: function success(data, status, jqXHR) {
+                                console.log(data)
+                            }
+                        });
+                    })                
+                
+                })
+                
+                </script>        
+    </body>
+</html>
