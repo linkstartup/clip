@@ -121,13 +121,15 @@ $(document).ready(function(){
 						var w = canvas.height*img.width/img.height;
 						ctx.drawImage(img, (canvas.width-w)/2, 0, w, canvas.height);
 						tapClip()
-						canvasBox.style.backgroundImage = "url("+imgName+")"
+						// canvasBox.style.backgroundImage = "url("+imgName+")"
+						canvasBox.style.backgroundImage = "url(\'http://localhost/Blur/"+imgName+"\')"
 					};
 				}
 			})
 
 		}else{//未登录
-			window.location.href='https://www.indo123.co/clip/Blur/login.html?imgName='+imgName
+			// window.location.href='https://www.indo123.co/clip/Blur/login.html?imgName='+imgName
+			window.location.href='http://localhost/Blur/login.html?imgName='+imgName
 
 		}
 		
@@ -209,7 +211,8 @@ $(document).ready(function(){
 			});
 
 			function jumptozoom(){
-				window.location.href='https://www.indo123.co/clip/Blur/sex.html?imgName='+imgName;
+				// window.location.href='https://www.indo123.co/clip/Blur/sex.html?imgName='+imgName;
+				window.location.href='http://localhost/Blur/sex.html?imgName='+imgName
 
 
 			}
